@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cibo Code - Your Recipe Haven</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #4CAF50;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #4CAF50;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        marquee {
+            background-color: #ffeb3b; /* Bright yellow */
+            color: #000; /* Black text */
+            padding: 10px;
+            font-style: italic;
+            font-weight: bold;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .image-grid {
+            display: flex;
+            justify-content: center; /* Center images horizontally */
+            gap: 20px; /* Space between images */
+        }
+
+        .image-grid img {
+            width: 30%; /* Set width to 30% for horizontal alignment */
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .image-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .points {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #e0f7fa; /* Light blue background */
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .points ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .points li {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <h1>Cibo Code</h1>
+            <div class="auth-buttons">
+                <a href="login.html"><button>Login</button></a>
+                <a href="signup.html"><button>Sign Up</button></a>
+            </div>
+        </div>
+        <marquee>"To live a full life, you have to fill your stomach first."</marquee>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="intro">
+                <p>Welcome to Cibo Code, your go-to source for delicious and easy-to-follow recipes. 
+                    Whether you're a seasoned chef or just starting out, 
+                    we have something for everyone. Join our community!
+                </p>
+ </section>
+
+            <section class="image-grid">
+                <img src="image 1.avif" alt="Masala Dosa">
+                <img src="image 2.avif" alt="Dal">
+                <img src="image 3.avif" alt="Potato Salad">
+            </section>
+
+            <div class="points">
+                <h2>Why Choose Cibo Code?</h2>
+                <ul>
+                    <li>Explore a vast collection of recipes from around the world.</li>
+                    <li>Get access to expert cooking tips and techniques.</li>
+                    <li>Join a community of food enthusiasts and share your own recipes.</li>
+                    <li>Stay updated with the latest food trends and news.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Copyright &copy; 2023 Cibo Code | <a href="#">Help & Support</a></p>
+        </div>
+    </footer>
+</body>
+</html>

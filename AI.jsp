@@ -1,0 +1,496 @@
+<%-- 
+    Document   : AI
+    Created on : 02-Nov-2024, 9:58:51 pm
+    Author     : User
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChopChuckle</title>
+    <style>
+        :root {
+            --primary-color: #28a745;
+            --secondary-color: #20c997;
+            --accent-color: #ffc107;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: var(--dark-color);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeDown 1s ease;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .recipe-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: fadeUp 1s ease;
+        }
+
+        .recipe-header {
+            background: var(--gradient);
+            padding: 2.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .recipe-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-section {
+            background: white;
+            margin: 1.5rem;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .btn {
+            background: var(--gradient);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+        }
+
+        .chat-container {
+            background: var(--light-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        #chatbox {
+            height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .chat-message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .user-message {
+            background: #e3f2fd;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+
+        .bot-message {
+            background: #f1f8e9;
+            margin-right: auto;
+            border-bottom-left-radius: 2px;
+        }
+
+        .suggestion-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Dark Mode */
+        .dark-mode {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+        }
+
+        .dark-mode .recipe-card {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+        }
+
+        .dark-mode .feature-section {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .dark-mode input[type="text"],
+        .dark-mode textarea {
+            background: rgba(255, 255, 255, 0.1); border-color: #3498db;
+            color: white;
+        }
+
+        .dark-mode .chat-container {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .dark-mode #chatbox {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .dark-mode .suggestion-box {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="logo">ChopChuckle</h1>
+        <p class="tagline">Your AI-Powered Cooking Companion</p>
+        <button class="btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    </div>
+
+    <div class="container">
+        <div class="recipe-card">
+            <div class="recipe-header">
+                <h2 class="recipe-title">Smart Recipe Assistant</h2>
+                <p>Get personalized recipe suggestions and cooking tips</p>
+            </div>
+
+            <div class="ai-features">
+                <!-- Recipe Generation -->
+                <div class="feature-section">
+                    <h3 class="feature-title">Recipe Generation</h3>
+                    <button class="btn" onclick="generateRecipe('healthy')">Healthy Recipe</button>
+                    <button class="btn" onclick="generateRecipe('quick')">Quick Recipe</button>
+                    <button class="btn" onclick="generateRecipe('vegetarian')">Vegetarian Recipe</button>
+                    <div id="recipe-result" class="suggestion-box"></div>
+                </div>
+
+                <!-- Ingredient Substitutions -->
+                <div class="feature-section">
+                    <h3 class="feature-title">Ingredient Substitutions</h3>
+                    <input type="text" id="ingredient-input" placeholder="Enter ingredient to substitute">
+                    <button class="btn" onclick="getSubstitutions()">Get Substitutions</button>
+                    <div id="substitution-result" class="suggestion-box"></div>
+                </div>
+
+                <!-- Cooking Assistant -->
+                <div class="feature-section">
+                    <h3 class="feature-title">Cooking Assistant</h3>
+                    <div class="chat-container">
+                        <div id="chatbox"></div>
+                        <div class="chat-input">
+                            <input type="text" id="user-input" placeholder="Ask cooking questions...">
+                            <button class="btn" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nutritional Information -->
+                <div class="feature-section">
+                    <h3 class="feature-title">Nutritional Calculator</h3>
+                    <textarea id="ingredients-list" placeholder="Enter ingredients (one per line)"></textarea>
+                    <button class="btn" onclick="calculateNutrition()">Calculate Nutrition</button>
+                    <div id="nutrition-result" class="suggestion-box"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       // Gemini API Configuration
+const GEMINI_API_KEY = 'AIzaSyDvG8Rf-hua_-1_YpDD11GhaPYGrQIxPQM'; // Get this from Google AI Studio
+const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+
+// Dark Mode Toggle
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+}
+
+// Check for saved dark mode preference
+if (localStorage.getItem('darkMode') === 'true') {
+    document.body.classList.add('dark-mode');
+}
+
+// Modified API Call Function for Gemini
+async function callGemini(prompt) {
+    try {
+        const response = await fetch(`${API_URL}?key=${GEMINI_API_KEY}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: prompt
+                    }]
+                }]
+            })
+        });
+
+        const data = await response.json();
+        if (data.error) {
+            console.error('Gemini API Error:', data.error);
+            throw new Error(data.error.message);
+        }
+        return data.candidates[0].content.parts[0].text;
+    } catch (error) {
+        console.error('Error:', error);
+        throw new Error('Failed to get response from Gemini');
+    }
+}
+
+// Recipe Generation
+async function generateRecipe(type) {
+    const resultDiv = document.getElementById('recipe-result');
+    resultDiv.innerHTML = '<div class="loading"></div>';
+
+    try {
+        const prompt = `Generate a ${type} recipe with ingredients, instructions, and cooking time.`;
+        const response = await callGemini(prompt);
+        resultDiv.innerHTML = formatRecipe(response);
+    } catch (error) {
+        resultDiv.innerHTML = `Error: ${error.message}. Please try again.`;
+    }
+}
+
+// Ingredient Substitutions
+async function getSubstitutions() {
+    const ingredient = document.getElementById('ingredient-input').value;
+    const resultDiv = document.getElementById('substitution-result');
+    
+    if (!ingredient) {
+        resultDiv.innerHTML = 'Please enter an ingredient';
+        return;
+    }
+
+    resultDiv.innerHTML = '<div class="loading"></div>';
+
+    try {
+        const prompt = `Suggest healthy substitutions for ${ingredient} in cooking.`;
+        const response = await callGemini(prompt);
+        resultDiv.innerHTML = response;
+    } catch (error) {
+        resultDiv.innerHTML = `Error: ${error.message}. Please try again.`;
+    }
+}
+
+// Chat Assistant
+async function sendMessage() {
+    const userInput = document.getElementById('user-input');
+    const message = userInput.value.trim();
+
+    if (!message) return;
+
+    appendMessage('user', message);
+    userInput.value = '';
+
+    try {
+        const response = await callGemini(message);
+        appendMessage('bot', response);
+    } catch (error) {
+        appendMessage('bot', `Error: ${error.message}. Please try again.`);
+    }
+}
+
+function appendMessage(sender, message) {
+    const chatbox = document.getElementById('chatbox');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${sender}-message`;
+    messageDiv.textContent = message;
+    chatbox.appendChild(messageDiv);
+    chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+// Nutritional Calculator
+async function calculateNutrition() {
+    const ingredients = document.getElementById('ingredients-list').value;
+    const resultDiv = document.getElementById('nutrition-result');
+
+    if (!ingredients) {
+        resultDiv.innerHTML = 'Please enter ingredients';
+        return;
+    }
+
+    resultDiv.innerHTML = '<div class="loading"></div>';
+
+    try {
+        const prompt = `Calculate approximate nutritional information for these ingredients: ${ingredients}`;
+        const response = await callGemini(prompt);
+        resultDiv.innerHTML = formatNutrition(response);
+    } catch (error) {
+        resultDiv.innerHTML = `Error: ${error.message}. Please try again.`;
+    }
+}
+
+// Helper Functions
+function formatRecipe(response) {
+    const formattedText = response.replace(/\n/g, '<br>');
+    return `<div class="recipe-display">${formattedText}</div>`;
+}
+
+function formatNutrition(response) {
+    const formattedText = response.replace(/\n/g, '<br>');
+    return `<div class="nutrition-display">${formattedText}</div>`;
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('generate-recipe-btn').addEventListener('click', function() {
+        const recipeType = document.getElementById('recipe-type').value;
+        generateRecipe(recipeType);
+    });
+
+    document.getElementById('get-substitutions-btn').addEventListener('click', getSubstitutions);
+
+    document.getElementById('send-message-btn').addEventListener('click', sendMessage);
+
+    document.getElementById('user-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    document.getElementById('calculate-nutrition-btn').addEventListener('click', calculateNutrition);
+
+    document.getElementById('toggle-dark-mode-btn').addEventListener('click', toggleDarkMode);
+
+    appendMessage('bot', 'Hello! Im your cooking assistant. How can I help you today?');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dal Thadka Recipe Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .navigation {
+            margin-bottom: 20px;
+        }
+
+        .home-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .home-link:hover {
+            color: #0056b3;
+        }
+
+        .recipe-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .serving-adjuster {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .ingredients-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .ingredients-list li {
+            margin: 10px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .recipe-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .recipe-description {
+            color: #666;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        .spice-level {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation">
+        <a href="index.html" class="home-link">← Back to Main Page</a>
+    </div>
+
+    <div class="recipe-card">
+        <h1>Dal Thadka</h1>
+        <img src="dal-thadka.jpg" alt="Dal Thadka" class="recipe-image">
+
+        <p class="recipe-description">
+            A classic Indian lentil dish made with yellow lentils (toor dal), 
+            tempered with aromatic spices and ghee. This comforting dish pairs 
+            perfectly with rice or roti. <span class="spice-level">Spice Level: Medium</span>
+        </p>
+
+        <div class="serving-adjuster">
+            <h3>Adjust Serving Size</h3>
+            <div class="controls">
+                <button onclick="decreaseServings()">-</button>
+                <input type="number" id="servings" value="4" min="1" onchange="updateIngredients()">
+                <button onclick="increaseServings()">+</button>
+                <span>servings</span>
+            </div>
+        </div>
+
+        <h2>Ingredients</h2>
+        <ul class="ingredients-list" id="ingredientsList">
+            <!-- Ingredients will be populated by JavaScript -->
+        </ul>
+
+        <h2>Instructions</h2>
+        <ol>
+            <li>Wash and soak toor dal for 30 minutes</li>
+            <li>Pressure cook dal with turmeric and salt until soft</li>
+            <li>Prepare the tempering (thadka) in a separate pan</li>
+            <li>Add the tempering to the cooked dal</li>
+            <li>Garnish with fresh coriander and serve hot</li>
+        </ol>
+    </div>
+
+    <script>
+        // Base recipe ingredients for 4 servings
+        const baseIngredients = [
+            { item: 'toor dal (yellow lentils)', amount: 1, unit: 'cup' },
+            { item: 'ghee', amount: 2, unit: 'tbsp' },
+            { item: 'cumin seeds', amount: 1, unit: 'tsp' },
+            { item: 'mustard seeds', amount: 1, unit: 'tsp' },
+            { item: 'garlic cloves, minced', amount: 4, unit: '' },
+            { item: 'onion, finely chopped', amount: 1, unit: '' },
+            { item: 'tomatoes, chopped', amount: 2, unit: '' },
+            { item: 'green chilies', amount: 2, unit: '' },
+            { item: 'turmeric powder', amount: 0.5, unit: 'tsp' },
+            { item: 'red chili powder', amount: 1, unit: 'tsp' },
+            { item: 'garam masala', amount: 0.5, unit: 'tsp' },
+            { item: 'curry leaves', amount: 8, unit: '' },
+            { item: 'fresh coriander leaves', amount: 0.25, unit: 'cup' },
+            { item: 'salt', amount: 1, unit: 'tsp' }
+        ];
+
+        const baseServings = 4;
+
+        function updateIngredients() {
+            const servings = parseInt(document.getElementById('servings').value);
+            const multiplier = servings / baseServings;
+            const ingredientsList = document.getElementById('ingredientsList');
+            
+            ingredientsList.innerHTML = '';
+            
+            baseIngredients.forEach(ingredient => {
+                const adjustedAmount = (ingredient.amount * multiplier).toFixed(2);
+                const li = document.createElement('li');
+                li.textContent = `${adjustedAmount} ${ingredient.unit} ${ingredient.item}`;
+                ingredientsList.appendChild(li);
+            });
+        }
+
+        function decreaseServings() {
+            const servingsInput = document.getElementById('servings');
+            if (servingsInput.value > 1) {
+                servingsInput.value = parseInt(servingsInput.value) - 1;
+                updateIngredients();
+            }
+        }
+
+        function increaseServings() {
+            const servingsInput = document.getElementById('servings');
+            servingsInput.value = parseInt(servingsInput.value) + 1;
+            updateIngredients();
+        }
+
+        // Initialize the ingredients list
+        updateIngredients();
+    </script>
+</body>
+</html>
