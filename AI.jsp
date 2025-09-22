@@ -331,8 +331,8 @@
 
     <script>
        // Gemini API Configuration
-const GEMINI_API_KEY = 'AIzaSyDvG8Rf-hua_-1_YpDD11GhaPYGrQIxPQM'; // Get this from Google AI Studio
-const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+const GEMINI_API_KEY = ''; // Get this from Google AI Studio
+const API_URL = '';
 
 // Dark Mode Toggle
 function toggleDarkMode() {
